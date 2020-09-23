@@ -36,12 +36,22 @@ const ShoppinglistService = {
       .then((res) => console.log(res))
       .then(() => knex.destroy());
   },
+  deleteItem(knex, id) {
+    return knex
+      .from('shopping_list')
+      .where({ shopping_list_id: id })
+      .delete()
+      .then((res) => console.log(res))
+      .then(() => knex.destroy());
+  },
 };
 
-ShoppinglistService.getAllItems(knexInstance);
+//ShoppinglistService.getAllItems(knexInstance);
 
 //('Mascarphony', 1.80, 'Lunch', true,   now() - '7 days'::INTERVAL)
 
 //ShoppinglistService.insertItem(knexInstance);
 
 //ShoppinglistService.updateItem(knexInstance, 33, newShoppingItem);
+
+//ShoppinglistService.deleteItem(knexInstance, 33);
