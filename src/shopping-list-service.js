@@ -15,32 +15,29 @@ const knexInstance = knex({
 
 const ShoppinglistService = {
   getAllItems(knex) {
-    return knex
-      .select('*')
-      .from('shopping_list')
-      .then(() => knex.destroy());
+    return knex.select('*').from('shopping_list');
   },
-  insertItem(knex) {
+  insertItem(knex, newItem) {
     return knex
-      .insert({ name: 'bagel', price: 2.0, category: 'Breakfast' })
+      .insert(newItem)
       .from('shopping_list')
-      .returning('*').then(rows => {return rows[0];})
-      .then(() => knex.destroy());
+      .returning('*')
+      .then((rows) => {
+        return rows[0];
+      });
   },
   updateItem(knex, id, newShoppingItem) {
     return knex
       .from('shopping_list')
       .where({ shopping_list_id: id })
       .update(newShoppingItem)
-      .returning('*').then(rows => {return rows[0];})
-      .then(() => knex.destroy());
+      .returning('*')
+      .then((rows) => {
+        return rows[0];
+      });
   },
   deleteItem(knex, id) {
-    return knex
-      .from('shopping_list')
-      .where({ shopping_list_id: id })
-      .delete()
-      .then(() => knex.destroy());
+    return knex.from('shopping_list').where({ shopping_list_id: id }).delete();
   },
 };
 
