@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { expect } = require('chai');
 const knex = require('knex');
+const { insertItem } = require('../src/shopping-list-service.js');
 const ShoppinglistService = require('../src/shopping-list-service.js');
 
 const db = knex({
@@ -11,32 +12,54 @@ const db = knex({
 
 const testList = [
   {
+    shopping_list_id: 1, 
     name: 'Super Bagel',
-    price: 99,
+    price: '99.00',
     category: 'Breakfast',
+    checked: false,
+    date_added: new Date('2020-09-24T00:59:27.667Z')
   },
   {
-    name: 'Bagel',
-    price: 2,
+    shopping_list_id: 2, 
+    name: 'Super Bagel',
+    price: '99.00',
     category: 'Breakfast',
+    checked: false,
+    date_added: new Date('2020-09-24T00:59:27.667Z')
   },
   {
-    name: 'Awful Bagel',
-    price: 0.01,
+    shopping_list_id: 3, 
+    name: 'Super Bagel',
+    price: '99.00',
     category: 'Breakfast',
+    checked: false,
+    date_added: new Date('2020-09-24T00:59:27.667Z')
   },
 ];
 
 describe('Database test suites', () => {
   describe('All Shopping list CRUD methods are working', () => {
     beforeEach(() => {
-      db.truncate();
+      return db.into('shopping_list').truncate();
+    });
+    afterEach(() => {
+      return db.into('shopping_list').truncate();
     });
     after(() => db.destroy());
     it('returns blank array with no data in table', () => {
       return db.into('shopping_list').then((res) => {
-        expect(res).to.be([]);
+        expect(res).to.eql([]);
       });
+    });
+    it('returns data from table', () => {
+      let validData= [...testList];
+      return db.into('shopping_list')
+        .insert(validData)
+        .then(() => {
+          return db.into('shopping_list').then((res) => {
+            expect(res).to.eql(validData);
+          });
+        });
     });
   });
 });

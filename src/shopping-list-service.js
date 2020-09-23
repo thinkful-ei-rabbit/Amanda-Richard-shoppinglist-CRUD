@@ -18,14 +18,13 @@ const ShoppinglistService = {
     return knex
       .select('*')
       .from('shopping_list')
-      .then((res) => console.log(res))
       .then(() => knex.destroy());
   },
   insertItem(knex) {
     return knex
       .insert({ name: 'bagel', price: 2.0, category: 'Breakfast' })
       .from('shopping_list')
-      .then((res) => console.log(res))
+      .returning('*').then(rows => {return rows[0];})
       .then(() => knex.destroy());
   },
   updateItem(knex, id, newShoppingItem) {
@@ -33,7 +32,7 @@ const ShoppinglistService = {
       .from('shopping_list')
       .where({ shopping_list_id: id })
       .update(newShoppingItem)
-      .then((res) => console.log(res))
+      .returning('*').then(rows => {return rows[0];})
       .then(() => knex.destroy());
   },
   deleteItem(knex, id) {
@@ -41,7 +40,6 @@ const ShoppinglistService = {
       .from('shopping_list')
       .where({ shopping_list_id: id })
       .delete()
-      .then((res) => console.log(res))
       .then(() => knex.destroy());
   },
 };
