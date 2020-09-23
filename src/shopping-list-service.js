@@ -7,11 +7,11 @@ const knexInstance = knex({
   connection: process.env.DB_URL,
 });
 
-const newShoppingItem = {
-  name: 'Super Bagel',
-  price: 99,
-  category: 'Breakfast',
-};
+// const newShoppingItem = {
+//   name: 'Super Bagel',
+//   price: 99,
+//   category: 'Breakfast',
+// };
 
 const ShoppinglistService = {
   getAllItems(knex) {
@@ -55,3 +55,4 @@ const ShoppinglistService = {
 //ShoppinglistService.updateItem(knexInstance, 33, newShoppingItem);
 
 //ShoppinglistService.deleteItem(knexInstance, 33);
+module.exports = ShoppinglistService;

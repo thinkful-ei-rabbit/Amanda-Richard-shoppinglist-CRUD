@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { expect } = require('chai');
 const knex = require('knex');
+const ShoppinglistService = require('../src/shopping-list-service.js');
 
 const db = knex({
   client: 'pg',
@@ -33,12 +34,9 @@ describe('Database test suites', () => {
     });
     after(() => db.destroy());
     it('returns blank array with no data in table', () => {
-      return db
-        .into('shopping_list')
-        .insert()
-        .expect(() => {
-          expect();
-        });
+      return db.into('shopping_list').then((res) => {
+        expect(res).to.be([]);
+      });
     });
   });
 });
